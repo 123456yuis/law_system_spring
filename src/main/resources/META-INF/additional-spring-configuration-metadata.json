@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "law.jwt.employee-secret-key",
+      "type": "java.lang.String",
+      "description": "Description for law.jwt.employee-secret-key."
+  }
+] }

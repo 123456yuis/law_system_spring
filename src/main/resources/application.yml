@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: law_system
+  main:
+    allow-circular-references: true
+  profiles:
+    active: dev
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/law_system
+      username: root
+      password: 123456
+
+server:
+  port: 8080
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.ylsf.grk.law_system.pojo.entity
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+law:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    employee-secret-key: cereshuzhitingnizhenbangcereshuzhitingnizhenbang
+    # 设置jwt过期时间
+    employee-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    employee-token-name: token
