@@ -9,12 +9,20 @@ import org.apache.ibatis.annotations.Select;
  * @Date 2024/12/2 0:11
  */
 @Mapper
-public interface EmployeeLoginMapper {
+public interface EmployeeMapper {
     /**
      * 根据员工名查询出员工信息
      * @param username
      * @return
      */
     @Select("select * from employee where username=#{username}")
-    Employee getByUsername(String username);
+    Employee getByEmployeeName(String username);
+
+    /**
+     * 根据id获取员工信息
+     * @param currentId
+     * @return
+     */
+    @Select("select * from employee where id=#{id}")
+    Employee getEmployeeInfoById(Long currentId);
 }

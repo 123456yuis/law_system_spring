@@ -7,10 +7,16 @@ import com.ylsf.grk.law_system.pojo.entity.Employee;
  * @Author 小柯
  * @Date 2024/12/1 21:05
  */
-public interface EmployeeLoginService {
+public interface EmployeeService {
     /**
      * 员工登录
      * @param employeeLoginDto
      */
     Employee login(EmployeeLoginDto employeeLoginDto);
+
+    /**
+     * 获取当前员工的信息
+     * @return
+     */
+    Employee getCurrentEmployeeInfo();
 }
