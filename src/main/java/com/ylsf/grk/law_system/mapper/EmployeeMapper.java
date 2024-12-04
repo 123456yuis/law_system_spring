@@ -1,5 +1,7 @@
 package com.ylsf.grk.law_system.mapper;
 
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ylsf.grk.law_system.pojo.entity.Employee;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -9,7 +11,7 @@ import org.apache.ibatis.annotations.Select;
  * @Date 2024/12/2 0:11
  */
 @Mapper
-public interface EmployeeMapper {
+public interface EmployeeMapper extends BaseMapper<Employee> {
     /**
      * 根据员工名查询出员工信息
      * @param username

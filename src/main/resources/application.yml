@@ -14,13 +14,41 @@ spring:
 
 server:
   port: 8080
-mybatis:
-  #mapper配置文件
-  mapper-locations: classpath:mapper/*.xml
+#mybatis:
+#  #mapper配置文件
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.ylsf.grk.law_system.pojo.entity
+#  configuration:
+#    #开启驼峰命名
+#    map-underscore-to-camel-case: true
+mybatis-plus:
+  # 搜索指定包别名
   type-aliases-package: com.ylsf.grk.law_system.pojo.entity
-  configuration:
-    #开启驼峰命名
-    map-underscore-to-camel-case: true
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapper-locations: classpath:mapper/*.xml
+  # 全局配置
+  global-config:
+    # 主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 0
+    # 字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 2
+    # 驼峰下划线转换
+    db-column-underline: true
+    # 刷新mapper 调试神器
+    refresh-mapper: true
+    # 配置
+    configuration:
+      # 驼峰式命名
+      map-underscore-to-camel-case: true
+      # 全局映射器启用缓存
+      cache-enabled: true
+      # 指定 MyBatis 所用日志的具体实现
+      log-impl: org.slf4j;
+      # 配置默认的执行器
+      default-executor-type: reuse
+      # 允许 JDBC 支持自动生成主键
+      use-generated-keys: true
+
 law:
   jwt:
     # 设置jwt签名加密时使用的秘钥

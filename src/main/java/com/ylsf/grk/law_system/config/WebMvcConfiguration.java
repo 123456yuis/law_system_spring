@@ -27,7 +27,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtEmployeeInterceptor)
                 .addPathPatterns("/employee/**")
-                .excludePathPatterns("/employee/login");
+                .excludePathPatterns("/employee/login")
+                .excludePathPatterns("/employee/register");
     }
     /**
      * 设置静态资源映射

@@ -3,6 +3,7 @@ package com.ylsf.grk.law_system.controller.employee;
 
 import com.ylsf.grk.law_system.context.BaseContext;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeLoginDto;
+import com.ylsf.grk.law_system.pojo.dto.EmployeeRegisterDto;
 import com.ylsf.grk.law_system.pojo.entity.Employee;
 import com.ylsf.grk.law_system.pojo.vo.EmployeeLoginVo;
 import com.ylsf.grk.law_system.property.JwtProperties;
@@ -27,7 +28,6 @@ import java.util.Map;
 public class EmployeeController {
     private final EmployeeService employeeService;
     private final JwtProperties jwtProperties;
-
 
     /**
      * 员工登录
@@ -57,5 +57,16 @@ public class EmployeeController {
         log.info("当前员工id：{}"+currentId);
         Employee employee=employeeService.getCurrentEmployeeInfo();
         return Result.success(employee);
+    }
+
+    /**
+     * 员工注册 TODO
+     * @return
+     */
+    @PostMapping("/register")
+    public Result register(@RequestBody EmployeeRegisterDto employeeRegisterDto){
+        log.info("注册用户信息：{}",employeeRegisterDto);
+        employeeService.register(employeeRegisterDto);
+        return Result.success();
     }
 }
