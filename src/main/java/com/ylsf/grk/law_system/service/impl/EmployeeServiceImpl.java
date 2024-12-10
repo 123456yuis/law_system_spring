@@ -89,9 +89,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     }
 
     private static void judgeUserNameAndPassword(String username, String password) {
-        // 正则表达式：用户名必须是两位以上的字符
+        // 正则表达式：用户名必须是5-10位的字符
         String USERNAME_PATTERN = "^[a-zA-Z0-9]{5,10}$";
-        // 正则表达式：密码必须包含大小写字母且长度不低于5位数
+        // 正则表达式：密码必须是6-15位的非空字符
         String PASSWORD_PATTERN = "^[a-zA-Z0-9!@#$%^&*()_+]{6,15}$";
         if(!username.matches(USERNAME_PATTERN)){
             throw new BaseException("用户名必须是5-10位的字符");
