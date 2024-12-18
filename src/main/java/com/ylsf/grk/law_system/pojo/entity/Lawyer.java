@@ -14,10 +14,8 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Lawer {
+public class Lawyer {
     private Long id;
-    private String username;
-    private String password;
     private String name;
     private String avatar;
     private String address;
@@ -27,6 +25,7 @@ public class Lawer {
     private String biography;
     private String identification;
     private String phone;
+    private Integer state;
     private BigDecimal expenses;
     private LocalDateTime createTime;
 }

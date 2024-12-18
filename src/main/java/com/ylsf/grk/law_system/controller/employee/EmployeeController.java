@@ -5,6 +5,7 @@ import com.ylsf.grk.law_system.context.BaseContext;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeLoginDto;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeRegisterDto;
 import com.ylsf.grk.law_system.pojo.entity.Employee;
+import com.ylsf.grk.law_system.pojo.entity.Lawyer;
 import com.ylsf.grk.law_system.pojo.vo.EmployeeLoginVo;
 import com.ylsf.grk.law_system.property.JwtProperties;
 import com.ylsf.grk.law_system.result.Result;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,5 +70,11 @@ public class EmployeeController {
         log.info("注册用户信息：{}",employeeRegisterDto);
         employeeService.register(employeeRegisterDto);
         return Result.success();
+    }
+
+    @GetMapping("/getAllLawyer")
+    public Result<List<Lawyer>> getAllLawyer(){
+        List<Lawyer> lawyers = employeeService.getAllLawyer();
+        return Result.success(lawyers);
     }
 }

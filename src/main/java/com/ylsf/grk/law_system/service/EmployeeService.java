@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeLoginDto;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeRegisterDto;
 import com.ylsf.grk.law_system.pojo.entity.Employee;
+import com.ylsf.grk.law_system.pojo.entity.Lawyer;
+
+import java.util.List;
 
 /**
  * @Author 小柯
@@ -27,4 +30,6 @@ public interface EmployeeService extends IService<Employee> {
      * @param employeeRegisterDto
      */
     void register(EmployeeRegisterDto employeeRegisterDto);
+
+    List<Lawyer> getAllLawyer();
 }

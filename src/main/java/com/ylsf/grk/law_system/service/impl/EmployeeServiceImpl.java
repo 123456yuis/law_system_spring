@@ -9,9 +9,11 @@ import com.ylsf.grk.law_system.context.BaseContext;
 import com.ylsf.grk.law_system.exception.BaseException;
 import com.ylsf.grk.law_system.exception.EmployeeException;
 import com.ylsf.grk.law_system.mapper.EmployeeMapper;
+import com.ylsf.grk.law_system.mapper.LawyerMapper;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeLoginDto;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeRegisterDto;
 import com.ylsf.grk.law_system.pojo.entity.Employee;
+import com.ylsf.grk.law_system.pojo.entity.Lawyer;
 import com.ylsf.grk.law_system.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService {
     private final EmployeeMapper employeeMapper;
-
+    private final LawyerMapper lawyerMapper;
     /**
      * 员工登录
      * @param employeeLoginDto
@@ -86,6 +88,12 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         employee.setCreateTime(LocalDateTime.now());
         BeanUtil.copyProperties(employeeRegisterDto,employee);
         employeeMapper.insert(employee);
+    }
+
+    @Override
+    public List<Lawyer> getAllLawyer() {
+        List<Lawyer> lawyers = lawyerMapper.selectList(null);
+        return lawyers;
     }
 
     private static void judgeUserNameAndPassword(String username, String password) {
