@@ -57,3 +57,36 @@ law:
     employee-ttl: 7200000
     # 设置前端传递过来的令牌名称
     employee-token-name: token
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+#控制台输出debug语句
+logging:
+  level:
+    com.ylsf.grk.law_system: debug
+
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+    urls-primary-name: 律师事务所系统
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.ylsf.grk.law_system.controller
+
+# knife4j的增强配置，不需要增强可以不配（建议配置一下）
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+

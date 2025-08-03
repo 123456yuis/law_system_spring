@@ -1,16 +1,22 @@
 package com.ylsf.grk.law_system.controller.employee;
 
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ylsf.grk.law_system.context.BaseContext;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeLoginDto;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeRegisterDto;
+import com.ylsf.grk.law_system.pojo.dto.LawyerPageQueryDto;
 import com.ylsf.grk.law_system.pojo.entity.Employee;
 import com.ylsf.grk.law_system.pojo.entity.Lawyer;
 import com.ylsf.grk.law_system.pojo.vo.EmployeeLoginVo;
 import com.ylsf.grk.law_system.property.JwtProperties;
+import com.ylsf.grk.law_system.result.PageResult;
 import com.ylsf.grk.law_system.result.Result;
 import com.ylsf.grk.law_system.service.EmployeeService;
 import com.ylsf.grk.law_system.utils.JwtUtil;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +29,7 @@ import java.util.Map;
  * @Author 小柯
  * @Date 2024/12/1 18:12
  */
+@Tag(name = "员工测试类")
 @RestController
 @RequestMapping("/employee")
 @Slf4j
@@ -72,9 +79,20 @@ public class EmployeeController {
         return Result.success();
     }
 
-    @GetMapping("/getAllLawyer")
-    public Result<List<Lawyer>> getAllLawyer(){
-        List<Lawyer> lawyers = employeeService.getAllLawyer();
-        return Result.success(lawyers);
+    /**
+     * 分页查询所有律师的信息
+     * @param lawyerPageQueryDto
+     * @return
+     */
+    @PostMapping("/pageAllLawyer")
+    public Result<PageResult> getAllLawyer(@RequestBody LawyerPageQueryDto lawyerPageQueryDto){
+        PageResult pageResult = employeeService.pageAllLawyer(lawyerPageQueryDto);
+        return Result.success(pageResult);
+    }
+
+    @Operation(summary = "获取律师数量")
+    @GetMapping("/getLawyerCount")
+    public Result<Long> getLawyerCount(){
+        return employeeService.getLawyerCount();
     }
 }

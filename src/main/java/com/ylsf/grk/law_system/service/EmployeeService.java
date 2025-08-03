@@ -3,8 +3,11 @@ package com.ylsf.grk.law_system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeLoginDto;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeRegisterDto;
+import com.ylsf.grk.law_system.pojo.dto.LawyerPageQueryDto;
 import com.ylsf.grk.law_system.pojo.entity.Employee;
 import com.ylsf.grk.law_system.pojo.entity.Lawyer;
+import com.ylsf.grk.law_system.result.PageResult;
+import com.ylsf.grk.law_system.result.Result;
 
 import java.util.List;
 
@@ -31,5 +34,16 @@ public interface EmployeeService extends IService<Employee> {
      */
     void register(EmployeeRegisterDto employeeRegisterDto);
 
-    List<Lawyer> getAllLawyer();
+    /**
+     * 分页查询所有律师信息
+     * @param lawyerPageQueryDto
+     * @return
+     */
+    PageResult pageAllLawyer(LawyerPageQueryDto lawyerPageQueryDto);
+
+    /**
+     * 获取律师的数量
+     * @return
+     */
+    Result<Long> getLawyerCount();
 }
