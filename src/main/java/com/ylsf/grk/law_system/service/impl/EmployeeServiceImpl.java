@@ -4,6 +4,7 @@ package com.ylsf.grk.law_system.service.impl;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -14,12 +15,14 @@ import com.ylsf.grk.law_system.mapper.EmployeeMapper;
 import com.ylsf.grk.law_system.mapper.LawyerMapper;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeLoginDto;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeRegisterDto;
-import com.ylsf.grk.law_system.pojo.dto.LawyerPageQueryDto;
-import com.ylsf.grk.law_system.pojo.entity.Employee;
-import com.ylsf.grk.law_system.pojo.entity.Lawyer;
+import com.ylsf.grk.law_system.pojo.dto.PageQueryDto;
+import com.ylsf.grk.law_system.pojo.entity.*;
 import com.ylsf.grk.law_system.result.PageResult;
 import com.ylsf.grk.law_system.result.Result;
+import com.ylsf.grk.law_system.service.AppointmentService;
+import com.ylsf.grk.law_system.service.CaseService;
 import com.ylsf.grk.law_system.service.EmployeeService;
+import com.ylsf.grk.law_system.service.WageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,6 +41,9 @@ import java.util.List;
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService {
     private final EmployeeMapper employeeMapper;
     private final LawyerMapper lawyerMapper;
+    private final AppointmentService appointmentService;
+    private final CaseService caseService;
+    private final WageService wageService;
     /**
      * 员工登录
      * @param employeeLoginDto
@@ -101,7 +107,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
      * @return
      */
     @Override
-    public PageResult pageAllLawyer(LawyerPageQueryDto lawyerPageQueryDto) {
+    public PageResult pageAllLawyer(PageQueryDto lawyerPageQueryDto) {
         PageHelper.startPage(lawyerPageQueryDto.getPage(),lawyerPageQueryDto.getSize());
         Page<Lawyer> lawyers = lawyerMapper.pageQuery(lawyerPageQueryDto);
         return new PageResult(lawyers.getTotal(),lawyers.getResult());
@@ -113,9 +119,71 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
      */
     @Override
     public Result<Long> getLawyerCount() {
-
         return Result.success(lawyerMapper.getCount());
     }
+
+    /**
+     * 更新律师信息
+     * @param lawyer
+     */
+    @Override
+    public void updateLawyer(Lawyer lawyer){
+        lawyerMapper.update(lawyer);
+    }
+
+    /**
+     * 删除律师（级联删除关联数据）
+     * @param id
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteLawyer(Long id) {
+        log.info("开始删除律师信息（级联删除），律师ID：{}", id);
+        
+        try {
+            // 1. 验证律师ID是否存在
+            Lawyer existingLawyer = lawyerMapper.selectById(id);
+            if (existingLawyer == null) {
+                log.error("律师ID不存在：{}", id);
+                throw new BaseException("律师不存在");
+            }
+            
+            // 2. 级联删除关联数据
+            // 2.1 删除预约记录
+            boolean appointmentDeleted = appointmentService.remove(
+                new LambdaQueryWrapper<Appointment>().eq(Appointment::getLawerId, id)
+            );
+            log.info("删除律师预约记录，律师ID：{}，删除结果：{}", id, appointmentDeleted);
+            
+            // 2.2 删除案件记录（根据业务需求决定是否删除）
+            boolean caseDeleted = caseService.remove(
+                new LambdaQueryWrapper<Case>().eq(Case::getLawerId, id)
+            );
+            log.info("删除律师案件记录，律师ID：{}，删除结果：{}", id, caseDeleted);
+            
+            // 2.3 删除工资记录
+            boolean wageDeleted = wageService.remove(
+                new LambdaQueryWrapper<Wage>().eq(Wage::getLawerId, id)
+            );
+            log.info("删除律师工资记录，律师ID：{}，删除结果：{}", id, wageDeleted);
+            
+            // 3. 删除律师主记录
+            boolean lawyerDeleted = lawyerMapper.deleteById(id) > 0;
+            
+            if (lawyerDeleted) {
+                log.info("律师信息删除成功，律师ID：{}，姓名：{}", id, existingLawyer.getName());
+            } else {
+                log.error("律师信息删除失败，律师ID：{}", id);
+                throw new RuntimeException("律师信息删除失败");
+            }
+            
+        } catch (Exception e) {
+            log.error("删除律师信息时发生异常，律师ID：{}，异常信息：{}", id, e.getMessage(), e);
+            // 事务会自动回滚
+            throw new BaseException("删除律师信息失败：" + e.getMessage());
+        }
+    }
+
 
     /**
      * 判断用户名和密码的合法性

@@ -1,5 +1,6 @@
 package com.ylsf.grk.law_system.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ylsf.grk.law_system.pojo.entity.Announcement;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * @Author 小柯
  * @Date 2024/12/11 0:07
  */
-public interface AnnouncementService {
+public interface AnnouncementService extends IService<Announcement> {
     /**
      * 获取所有的公告信息
      * @return

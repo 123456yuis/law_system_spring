@@ -1,11 +1,12 @@
-package com.ylsf.grk.law_system.controller.employee;
+package com.ylsf.grk.law_system.controller;
 
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.ylsf.grk.law_system.context.BaseContext;
+import com.ylsf.grk.law_system.mapper.LawyerMapper;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeLoginDto;
 import com.ylsf.grk.law_system.pojo.dto.EmployeeRegisterDto;
-import com.ylsf.grk.law_system.pojo.dto.LawyerPageQueryDto;
+
+import com.ylsf.grk.law_system.pojo.dto.PageQueryDto;
 import com.ylsf.grk.law_system.pojo.entity.Employee;
 import com.ylsf.grk.law_system.pojo.entity.Lawyer;
 import com.ylsf.grk.law_system.pojo.vo.EmployeeLoginVo;
@@ -36,12 +37,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class EmployeeController {
     private final EmployeeService employeeService;
+    private final LawyerMapper lawyerMapper;
     private final JwtProperties jwtProperties;
 
     /**
      * 员工登录
      * @param employeeLoginDto
+     * @return
      */
+    @Operation(summary = "员工登录")
     @PostMapping("/login")
     public Result<EmployeeLoginVo> login(@RequestBody EmployeeLoginDto employeeLoginDto){
         log.info("登录：{}",employeeLoginDto);
@@ -60,6 +64,7 @@ public class EmployeeController {
      * 获取当前员工信息
      * @return
      */
+    @Operation(summary = "获取当前员工信息")
     @GetMapping("/current/info")
     public Result<Employee> getCurrentEmployeeInfo(){
         Long currentId = BaseContext.getCurrentId();
@@ -69,9 +74,10 @@ public class EmployeeController {
     }
 
     /**
-     * 员工注册 TODO
+     * 员工注册
      * @return
      */
+    @Operation(summary = "员工注册")
     @PostMapping("/register")
     public Result register(@RequestBody EmployeeRegisterDto employeeRegisterDto){
         log.info("注册用户信息：{}",employeeRegisterDto);
@@ -84,15 +90,55 @@ public class EmployeeController {
      * @param lawyerPageQueryDto
      * @return
      */
+    @Operation(summary = "分页查询所有律师的信息")
     @PostMapping("/pageAllLawyer")
-    public Result<PageResult> getAllLawyer(@RequestBody LawyerPageQueryDto lawyerPageQueryDto){
+    public Result<PageResult> getAllLawyer(@RequestBody PageQueryDto lawyerPageQueryDto){
         PageResult pageResult = employeeService.pageAllLawyer(lawyerPageQueryDto);
         return Result.success(pageResult);
     }
 
+    /**
+     * 获取律师数量
+     * @return
+     */
     @Operation(summary = "获取律师数量")
     @GetMapping("/getLawyerCount")
     public Result<Long> getLawyerCount(){
         return employeeService.getLawyerCount();
+    }
+
+    /**
+     * 更新律师信息
+     * @param id
+     * @param lawyer
+     * @return
+     */
+    @Operation(summary = "更新律师信息")
+    @PutMapping("/updateLawyer/{id}")
+    public Result updateLawyer(@PathVariable Long id,@RequestBody Lawyer lawyer){
+        log.info("更新律师信息：{}",lawyer);
+        lawyer.setId(id);
+        employeeService.updateLawyer(lawyer);
+        return Result.success();
+    }
+
+    /**
+     * 删除律师
+     * @param id
+     * @return
+     */
+    @Operation(summary = "删除律师")
+    @DeleteMapping("/deleteLawyer/{id}")
+    public Result deleteLawyer(@PathVariable Long id){
+        log.info("删除律师：{}",id);
+        employeeService.deleteLawyer(id);
+        return Result.success();
+    }
+
+    @Operation(summary = "批量获取所有律师信息")
+    @GetMapping("/getAllLawyer")
+    public Result<List<Lawyer>> getAllLawyer(){
+        List<Lawyer> allLawyer = lawyerMapper.selectList(null);
+        return Result.success(allLawyer);
     }
 }

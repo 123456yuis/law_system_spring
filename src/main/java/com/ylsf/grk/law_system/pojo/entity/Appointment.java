@@ -19,4 +19,5 @@ public class Appointment {
     private Long clientId;
     private Long lawerId;
     private LocalDateTime createTime;
+    private Long caseId;
 }
