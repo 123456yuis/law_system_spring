@@ -4,10 +4,12 @@ package com.ylsf.grk.law_system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ylsf.grk.law_system.constant.CaseConstant;
 import com.ylsf.grk.law_system.mapper.CaseMapper;
 import com.ylsf.grk.law_system.pojo.dto.CaseDTO;
 import com.ylsf.grk.law_system.pojo.dto.CasePageQueryDto;
 import com.ylsf.grk.law_system.pojo.entity.Case;
+import com.ylsf.grk.law_system.pojo.vo.CaseCategoryStatisticsVO;
 import com.ylsf.grk.law_system.pojo.vo.CaseStatisticVO;
 import com.ylsf.grk.law_system.result.PageResult;
 import com.ylsf.grk.law_system.result.Result;
@@ -167,6 +169,23 @@ public class CaseServiceImpl extends ServiceImpl<CaseMapper, Case> implements Ca
     public Result removeCaseById(Long id) {
         baseMapper.deleteById(id);
         return Result.success();
+    }
+
+    /**
+     * 获取案件分类统计信息
+     * @return
+     */
+    @Override
+    public Result<CaseCategoryStatisticsVO> getCaseCategoryStatistics() {
+        CaseCategoryStatisticsVO caseCategoryStatisticsVO = new CaseCategoryStatisticsVO();
+        //根据案件分类进行统计
+        List<Case> caseCriminalList = baseMapper.selectList(new LambdaQueryWrapper<Case>().eq(Case::getCategory, CaseConstant.CASE_TYPE_CRIMINAL));
+        List<Case> caseCivilList = baseMapper.selectList(new LambdaQueryWrapper<Case>().eq(Case::getCategory, CaseConstant.CASE_TYPE_CIVIL));
+        List<Case> caseAdministrativeList = baseMapper.selectList(new LambdaQueryWrapper<Case>().eq(Case::getCategory, CaseConstant.CASE_TYPE_ADMINISTRATIVE));
+        caseCategoryStatisticsVO.setAdministrativeCaseCount((long)caseAdministrativeList.size());
+        caseCategoryStatisticsVO.setCivilCaseCount((long) caseCivilList.size());
+        caseCategoryStatisticsVO.setCriminalCaseCount((long) caseCriminalList.size());
+        return Result.success(caseCategoryStatisticsVO);
     }
 
     /**

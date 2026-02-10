@@ -6,9 +6,13 @@ import com.ylsf.grk.law_system.pojo.dto.CasePageQueryDto;
 import com.ylsf.grk.law_system.pojo.dto.CaseSearchDto;
 import com.ylsf.grk.law_system.pojo.dto.PageQueryDto;
 import com.ylsf.grk.law_system.pojo.entity.Case;
+import com.ylsf.grk.law_system.pojo.vo.CaseCategoryStatisticsVO;
 import com.ylsf.grk.law_system.pojo.vo.CaseStatisticVO;
+import com.ylsf.grk.law_system.pojo.vo.LawyerCaseCountVO;
 import com.ylsf.grk.law_system.result.PageResult;
 import com.ylsf.grk.law_system.result.Result;
+
+import java.util.List;
 
 
 public interface CaseService extends IService<Case> {
@@ -22,4 +26,7 @@ public interface CaseService extends IService<Case> {
     Result updateCase(CaseDTO caseDTO);
 
     Result removeCaseById(Long id);
+
+    Result<CaseCategoryStatisticsVO> getCaseCategoryStatistics();
+
 }

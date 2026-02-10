@@ -3,7 +3,9 @@ spring:
     name: law_system
   main:
     allow-circular-references: true
-  profiles:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/chat_memory_db
     active: dev
   datasource:
     druid:
@@ -90,10 +92,14 @@ knife4j:
   setting:
     language: zh_cn
 
+#阿里智能大模型
 langchain4j:
-  open-ai:
-    chat-model:
-      api-key: sk-c2921745c40944ae8d89c55906aadcfe
-      model-name: deepseek-reasoner
-      base-url: https://api.deepseek.com
+  community:
+    dashscope:
+      chat-model:
+        model-name: qwen-plus
+        api-key: sk-e8284829b9e1433fbc2e8b4d4e7ab762
+      streaming-chat-model:
+        api-key: sk-e8284829b9e1433fbc2e8b4d4e7ab762
+        model-name: qwen-plus
 

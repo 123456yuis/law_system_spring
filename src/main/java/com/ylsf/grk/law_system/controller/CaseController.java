@@ -64,4 +64,5 @@ public class CaseController {
     public Result deleteCase(@PathVariable("id") Long id) {
         return caseService.removeCaseById(id);
     }
+
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ylsf.grk.law_system.mapper.LawyerMapper">
-
+    <select id="selectAllLawyerCaseCount" resultType="com.ylsf.grk.law_system.pojo.vo.LawyerCaseCountVO">
+        select lawer_id as lawyer_id,lawyer.`name` as lawyer_name,count(*) as case_count from law_case join lawyer on lawyer.id = lawer_id group by lawer_id
+    </select>
 </mapper>
