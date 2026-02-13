@@ -26,10 +26,12 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      */
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtEmployeeInterceptor)
-                .addPathPatterns("/employee/**")
-                .addPathPatterns("/forum/**")
+                .addPathPatterns("/**")
                 .excludePathPatterns("/employee/login")
-                .excludePathPatterns("/employee/register");
+                .excludePathPatterns("/employee/register")
+                .excludePathPatterns("/error")  // 排除错误页面
+                .excludePathPatterns("/swagger-ui/**")  // 排除Swagger文档
+                .excludePathPatterns("/v3/api-docs/**");  // 排除API文档
     }
     /**
      * 设置静态资源映射
