@@ -222,10 +222,18 @@ public class CaseServiceImpl extends ServiceImpl<CaseMapper, Case> implements Ca
      * @return
      */
     private Boolean judgeIsSearch(CasePageQueryDto casePageQueryDto){
-        if(casePageQueryDto.getCaseName().equals("")&&casePageQueryDto.getCaseType().equals("")
-                &&casePageQueryDto.getLawyerName().equals("")&&casePageQueryDto.getClientName().equals("")){
-            return false;
-        }
-        return true;
+        // 安全地检查搜索条件，避免空指针异常
+        String caseName = casePageQueryDto.getCaseName();
+        String caseType = casePageQueryDto.getCaseType();
+        String lawyerName = casePageQueryDto.getLawyerName();
+        String clientName = casePageQueryDto.getClientName();
+        
+        // 检查是否有非空且非空的搜索条件
+        boolean hasSearchCondition = (caseName != null && !caseName.trim().isEmpty()) ||
+                                    (caseType != null && !caseType.trim().isEmpty()) ||
+                                    (lawyerName != null && !lawyerName.trim().isEmpty()) ||
+                                    (clientName != null && !clientName.trim().isEmpty());
+        
+        return hasSearchCondition;
     }
 }

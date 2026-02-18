@@ -27,6 +27,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtEmployeeInterceptor)
                 .addPathPatterns("/**")
+                .excludePathPatterns("/lawyer/login")
+                .excludePathPatterns("/lawyer/register")
                 .excludePathPatterns("/employee/login")
                 .excludePathPatterns("/employee/register")
                 .excludePathPatterns("/error")  // 排除错误页面

@@ -33,4 +33,5 @@ public class Lawyer {
     private Integer state;
     private BigDecimal expenses;
     private LocalDateTime createTime;
+    private String password;
 }
