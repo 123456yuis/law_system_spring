@@ -17,7 +17,12 @@ YOLO+LangChain多模态AI法律平台是一个结合计算机视觉和大语言�
 - **API文档**: SpringDoc OpenAPI + Knife4j
 - **构建工具**: Maven
 - **开发工具**: Spring Boot DevTools (热部署)
-
+## 项目展示
+---
+![[Pasted image 20260314174532.png]]
+![[Pasted image 20260314174557.png]]
+![[Pasted image 20260314174714.png]]
+![[Pasted image 20260314174737.png]]
 ## 项目结构
 
 ```
