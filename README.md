@@ -19,10 +19,11 @@ YOLO+LangChain多模态AI法律平台是一个结合计算机视觉和大语言�
 - **开发工具**: Spring Boot DevTools (热部署)
 ## 项目展示
 ---
-![[Pasted image 20260314174532.png]]
-![[Pasted image 20260314174557.png]]
-![[Pasted image 20260314174714.png]]
-![[Pasted image 20260314174737.png]]
+![image](image/Pasted%20image%2020260314174532.png)
+![image](image/Pasted%20image%2020260314174714.png)
+![image](image/Pasted%20image%2020260314174737.png)
+
+
 ## 项目结构
 
 ```
