@@ -13,7 +13,8 @@ import reactor.core.publisher.Flux;
         //chatModel = "qwenChatModel",
         streamingChatModel = "qwenStreamingChatModel",
         chatMemoryProvider = "chatMemoryProviderLegal",
-        contentRetriever = "contentRetrieverLegal"
+        contentRetriever = "contentRetrieverLegal",
+        tools = "lawyerTools"
 )
 public interface LegalAssistant {
     @SystemMessage(fromResource = "legal-prompt-template.txt")

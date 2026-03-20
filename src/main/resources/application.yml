@@ -97,9 +97,9 @@ langchain4j:
   community:
     dashscope:
       chat-model:
-        model-name: qwen-plus
+        model-name: qwen3-max
         api-key: sk-e8284829b9e1433fbc2e8b4d4e7ab762
       streaming-chat-model:
         api-key: sk-e8284829b9e1433fbc2e8b4d4e7ab762
-        model-name: qwen-plus
+        model-name: qwen3-max
 
